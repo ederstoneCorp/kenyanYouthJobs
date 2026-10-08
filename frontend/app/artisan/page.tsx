@@ -62,7 +62,7 @@ export default function ArtisanPage() {
       </div>
 
       {loading ? <div className="mt-6 animate-pulse overflow-hidden rounded-[1.8rem] bg-white"><div className="h-36 bg-[#e3e8e0] sm:h-48"/><div className="p-7"><div className="h-20 w-20 rounded-2xl bg-[#e9e6df]"/><div className="mt-5 h-5 w-1/3 rounded bg-[#e9e6df]"/><div className="mt-3 h-4 w-2/3 rounded bg-[#efede7]"/></div></div>
-      : error ? <div role="alert" className="mt-6 rounded-3xl border border-[#1d3027]/8 bg-white p-10 text-center"><h1 className="text-xl font-black">Profile unavailable</h1><p className="mt-2 text-sm text-[#69746d]">{error}</p><Link href="/discover" className="mt-5 inline-flex rounded-xl bg-[#244b3a] px-4 py-3 text-sm font-bold text-white">Return to directory</Link></div>
+      : error ? <div role="alert" className="mt-6 rounded-3xl border border-[#1d3027]/8 bg-white p-10 text-center"><h1 className="text-xl font-black">Profile unavailable</h1><p className="mt-2 text-sm text-[#69746d]">{error}</p><Link href="/discover/" className="mt-5 inline-flex rounded-xl bg-[#244b3a] px-4 py-3 text-sm font-bold text-white">Return to directory</Link></div>
       : profile ? <>
         <section className="mt-5 overflow-hidden rounded-[1.8rem] border border-[#1d3027]/8 bg-white shadow-[0_10px_40px_rgba(28,41,35,.055)]">
           <div className="relative h-32 overflow-hidden bg-[#1d3027] sm:h-48">
