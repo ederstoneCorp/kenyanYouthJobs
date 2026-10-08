@@ -1,25 +1,56 @@
 "use client";
-import {useMemo,useState} from "react";
-import {Search,MapPin,ShieldCheck,Star,SlidersHorizontal,ChevronRight,Navigation} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Search, MapPin, ShieldCheck, Star, SlidersHorizontal } from "lucide-react";
+import { supabase } from "./lib/supabase";
 
-type Artisan={id:number;name:string;trade:string;rating:number;jobs:number;distance:number;price:string;verified:boolean;available:boolean;location:string;initials:string};
-const artisans:Artisan[]=[
-{id:1,name:"Brian Mwangi",trade:"Electrician",rating:4.9,jobs:84,distance:.8,price:"From KSh 1,500",verified:true,available:true,location:"Ruiru",initials:"BM"},
-{id:2,name:"Mary Wanjiku",trade:"Plumber",rating:4.8,jobs:62,distance:1.4,price:"From KSh 1,200",verified:true,available:true,location:"Kahawa Sukari",initials:"MW"},
-{id:3,name:"Kevin Otieno",trade:"Carpenter",rating:4.7,jobs:51,distance:2.1,price:"From KSh 2,000",verified:true,available:false,location:"Juja",initials:"KO"},
-{id:4,name:"Faith Njeri",trade:"Tech Repair",rating:4.9,jobs:107,distance:3.6,price:"From KSh 800",verified:true,available:true,location:"Kasarani",initials:"FN"},
-{id:5,name:"David Kamau",trade:"Mechanic",rating:4.6,jobs:39,distance:4.2,price:"From KSh 2,500",verified:false,available:true,location:"Githurai",initials:"DK"}];
-const trades=["All trades","Electrician","Plumber","Carpenter","Mechanic","Tech Repair"];
+type Artisan = { id: string; name: string; trade: string; rating: number; jobs: number; verified: boolean; available: boolean };
+const trades = ["All trades", "Electrician", "Plumber", "Carpenter", "Mechanic", "Tech Repair"];
 
-export default function Home(){
-const[trade,setTrade]=useState("All trades"),[query,setQuery]=useState(""),[available,setAvailable]=useState(false),[view,setView]=useState<"list"|"map">("list");
-const filtered=useMemo(()=>artisans.filter(a=>(trade==="All trades"||a.trade===trade)&&(!available||a.available)&&(`${a.name} ${a.trade} ${a.location}`.toLowerCase().includes(query.toLowerCase()))).sort((a,b)=>a.distance-b.distance),[trade,available,query]);
-return <main className="min-h-screen">
-<header className="sticky top-0 z-20 border-b border-black/5 bg-white/90 backdrop-blur"><div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4"><div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-xl bg-forest font-black text-white">F</div><div><b className="text-lg">FundiConnect</b><div className="text-[10px] font-bold uppercase tracking-widest text-forest">Local skills. Local jobs.</div></div></div><nav className="hidden gap-7 text-sm font-bold md:flex"><a href="#find">Find a fundi</a><a href="#how">How it works</a><a href="#join">Join as a fundi</a><button className="rounded-full bg-ink px-5 py-2.5 text-white">Sign in</button></nav></div></header>
-<section className="bg-ink px-5 py-16 text-white md:py-20"><div className="mx-auto max-w-7xl"><div className="max-w-3xl"><div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-mint"><MapPin size={16}/>Trusted skills near you</div><h1 className="text-4xl font-black leading-tight md:text-6xl">Find a trusted fundi.<br/><span className="text-mint">Get the job done.</span></h1><p className="mt-6 max-w-2xl text-lg leading-7 text-white/70">Discover verified local artisans by distance, trade, availability and reputation — from electrical repairs to plumbing, carpentry, mechanics and tech support.</p></div><div className="mt-9 grid max-w-5xl gap-3 rounded-2xl bg-white p-3 shadow-soft md:grid-cols-[1.4fr_1fr_auto]"><div className="flex items-center gap-3 rounded-xl bg-sand px-4"><Search size={20} className="text-black/40"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="What do you need fixed?" className="w-full bg-transparent py-3.5 text-sm text-ink outline-none"/></div><div className="flex items-center gap-3 rounded-xl bg-sand px-4"><MapPin size={18} className="text-forest"/><span className="text-sm font-semibold">Use my location</span><Navigation size={15} className="ml-auto text-black/30"/></div><button onClick={()=>document.getElementById("find")?.scrollIntoView({behavior:"smooth"})} className="rounded-xl bg-forest px-7 py-3.5 font-bold text-white">Find a fundi</button></div></div></section>
-<section id="find" className="mx-auto max-w-7xl px-5 py-10"><div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><p className="text-sm font-bold text-forest">NEARBY ARTISANS</p><h2 className="mt-1 text-3xl font-black">Skilled people ready to help</h2></div><div className="flex rounded-xl bg-white p-1 shadow-sm"><button onClick={()=>setView("list")} className={`rounded-lg px-4 py-2 text-sm font-bold ${view==="list"?"bg-ink text-white":"text-black/50"}`}>List</button><button onClick={()=>setView("map")} className={`rounded-lg px-4 py-2 text-sm font-bold ${view==="map"?"bg-ink text-white":"text-black/50"}`}>Map</button></div></div><div className="mb-7 flex flex-wrap gap-2">{trades.map(t=><button key={t} onClick={()=>setTrade(t)} className={`rounded-full border px-4 py-2 text-sm font-semibold ${trade===t?"border-forest bg-forest text-white":"border-black/10 bg-white"}`}>{t}</button>)}<button onClick={()=>setAvailable(!available)} className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold ${available?"border-forest bg-mint":"border-black/10 bg-white"}`}><SlidersHorizontal size={15}/>Available now</button></div>
-{view==="map"?<div className="grid min-h-[520px] place-items-center rounded-3xl bg-[#dfece3] shadow-soft"><div className="text-center"><MapPin className="mx-auto mb-4 text-forest" size={52}/><h3 className="text-xl font-black">Live artisan map</h3><p className="mx-auto mt-2 max-w-md text-sm leading-6 text-black/55">Leaflet and PostGIS are scaffolded for the live proximity layer. This preview will become interactive when the API is connected.</p></div></div>:<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{filtered.map(a=><article key={a.id} className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm hover:shadow-soft"><div className="flex items-start justify-between"><div className="flex items-center gap-3"><div className="grid h-12 w-12 place-items-center rounded-full bg-mint font-black text-forest">{a.initials}</div><div><h3 className="font-black">{a.name}</h3><p className="text-sm text-black/50">{a.trade}</p></div></div>{a.verified&&<ShieldCheck className="text-forest" size={20}/>}</div><div className="mt-5 flex gap-4 text-sm"><span className="flex items-center gap-1 font-bold"><Star size={16} className="fill-amber text-amber"/>{a.rating}</span><span className="text-black/50">{a.jobs} jobs</span><span className="text-black/50">{a.distance} km</span></div><div className="mt-4 flex justify-between border-t pt-4 text-sm"><b>{a.price}</b><span className={a.available?"font-bold text-forest":"text-black/35"}>{a.available?"● Available":"● Busy"}</span></div><button className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-ink py-3 text-sm font-bold text-white">View profile <ChevronRight size={16}/></button></article>)}</div>}</section>
-<section id="how" className="border-y border-black/5 bg-white px-5 py-14"><div className="mx-auto max-w-7xl"><p className="text-sm font-bold text-forest">HOW IT WORKS</p><h2 className="mt-1 text-3xl font-black">From problem to professional in minutes.</h2><div className="mt-9 grid gap-5 md:grid-cols-3">{[["01","Tell us what you need","Choose a trade, describe the job and share your location or drop a pin."],["02","Compare nearby fundis","See distance, availability, verification, ratings and starting prices."],["03","Hire with confidence","Send a request, track progress and review the work when complete."]].map(x=><div key={x[0]} className="rounded-2xl bg-sand p-6"><b className="text-forest">{x[0]}</b><h3 className="mt-5 text-xl font-black">{x[1]}</h3><p className="mt-2 text-sm leading-6 text-black/55">{x[2]}</p></div>)}</div></div></section>
-<section id="join" className="bg-forest px-5 py-14 text-white"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center"><div><p className="text-sm font-bold uppercase tracking-widest text-mint">For artisans</p><h2 className="mt-2 text-3xl font-black">Turn your skills into a digital storefront.</h2><p className="mt-3 text-white/70">Get discovered by customers near you, build a trusted work history and control when you are available.</p></div><button className="rounded-xl bg-white px-6 py-3.5 font-bold text-forest">Join FundiConnect</button></div></section>
-<footer className="bg-ink px-5 py-8 text-sm text-white/50"><div className="mx-auto flex max-w-7xl max-w-7xl justify-between">© 2026 FundiConnect <span>Built for local skills and local opportunity in Kenya.</span></div></footer>
-</main>}
+export default function Home() {
+  const [artisans, setArtisans] = useState<Artisan[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [trade, setTrade] = useState("All trades");
+  const [query, setQuery] = useState("");
+  const [available, setAvailable] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    async function load() {
+      const result = await supabase.from("public_artisan_directory")
+        .select("id, full_name, trade_category, is_verified, is_available, rating_avg, completed_jobs")
+        .order("is_available", { ascending: false }).order("rating_avg", { ascending: false });
+      if (!active) return;
+      if (result.error) {
+        console.error("Supabase artisan directory error:", result.error.message);
+        setErrorMessage("Unable to load artisan profiles. Check the Supabase connection and directory permissions.");
+      } else {
+        setArtisans((result.data ?? []).map((row: any) => ({
+          id: row.id, name: row.full_name || "Fundi profile", trade: row.trade_category || "General artisan",
+          rating: Number(row.rating_avg ?? 0), jobs: Number(row.completed_jobs ?? 0),
+          verified: Boolean(row.is_verified), available: Boolean(row.is_available)
+        })));
+      }
+      setLoading(false);
+    }
+    load();
+    return () => { active = false; };
+  }, []);
+
+  const filtered = useMemo(() => artisans.filter(a =>
+    (trade === "All trades" || a.trade.toLowerCase() === trade.toLowerCase()) &&
+    (!available || a.available) && (a.name + " " + a.trade).toLowerCase().includes(query.toLowerCase())
+  ), [artisans, trade, available, query]);
+
+  return <main className="min-h-screen">
+    <header className="border-b bg-white px-5 py-5"><div className="mx-auto flex max-w-7xl items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-xl bg-forest font-black text-white">F</div><div><b className="text-lg">FundiConnect</b><p className="text-[10px] font-bold uppercase tracking-widest text-forest">Local skills. Local jobs.</p></div></div></header>
+    <section className="bg-ink px-5 py-16 text-white"><div className="mx-auto max-w-7xl"><p className="mb-4 flex items-center gap-2 text-mint"><MapPin size={17}/> Trusted skills near you</p><h1 className="text-4xl font-black md:text-6xl">Find a trusted fundi.<br/><span className="text-mint">Get the job done.</span></h1><p className="mt-5 max-w-2xl text-white/70">Discover local artisans by trade, availability and reputation.</p><div className="mt-8 flex max-w-2xl items-center gap-3 rounded-xl bg-white px-4"><Search size={20} className="text-black/40"/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search by name or trade" className="w-full py-4 text-sm text-ink outline-none"/></div></div></section>
+    <section id="find" className="mx-auto max-w-7xl px-5 py-10"><div className="mb-6"><p className="text-sm font-bold text-forest">ARTISAN DIRECTORY</p><h2 className="mt-1 text-3xl font-black">Skilled people ready to help</h2><p className="mt-2 text-sm text-black/50">Profiles below are loaded from your Supabase database.</p></div>
+    <div className="mb-7 flex flex-wrap gap-2">{trades.map(t => <button key={t} onClick={() => setTrade(t)} className={`rounded-full border px-4 py-2 text-sm font-semibold ${trade === t ? "border-forest bg-forest text-white" : "border-black/10 bg-white"}`}>{t}</button>)}<button onClick={() => setAvailable(!available)} className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm ${available ? "bg-mint" : "bg-white"}`}><SlidersHorizontal size={15}/> Available now</button></div>
+    {loading ? <p className="rounded-2xl bg-white p-10 text-center">Loading artisan profiles…</p> : errorMessage ? <p role="alert" className="rounded-2xl bg-white p-10 text-center">{errorMessage}</p> : filtered.length === 0 ? <div className="rounded-2xl bg-white p-10 text-center"><h3 className="font-black">No artisan profiles found</h3><p className="mt-2 text-sm text-black/60">{artisans.length === 0 ? "The connection worked, but no artisan profiles have been added yet." : "Try changing your search or filters."}</p></div> :
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{filtered.map(a => <article key={a.id} className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm"><div className="flex items-start justify-between"><div><h3 className="font-black">{a.name}</h3><p className="text-sm text-black/50">{a.trade}</p></div>{a.verified && <ShieldCheck className="text-forest" size={20}/>}</div><div className="mt-5 flex gap-4 text-sm"><span className="flex items-center gap-1 font-bold"><Star size={16} className="fill-amber text-amber"/>{a.rating.toFixed(1)}</span><span className="text-black/50">{a.jobs} jobs</span></div><div className="mt-4 flex justify-between border-t pt-4 text-sm"><b>{a.verified ? "Verified profile" : "Not verified"}</b><span className={a.available ? "font-bold text-forest" : "text-black/40"}>{a.available ? "Available" : "Busy"}</span></div></article>)}</div>}
+    </section>
+    <section id="how" className="border-y bg-white px-5 py-14"><div className="mx-auto max-w-7xl"><h2 className="text-3xl font-black">How FundiConnect works</h2><div className="mt-6 grid gap-5 md:grid-cols-3">{[["01","Tell us what you need"],["02","Compare nearby fundis"],["03","Hire with confidence"]].map(x => <div key={x[0]} className="rounded-2xl bg-sand p-6"><b className="text-forest">{x[0]}</b><h3 className="mt-3 text-xl font-black">{x[1]}</h3></div>)}</div></div></section>
+    <footer className="bg-ink px-5 py-8 text-sm text-white/60"><div className="mx-auto max-w-7xl">© 2026 FundiConnect · Built for local skills and local opportunity in Kenya.</div></footer>
+  </main>;
+}
