@@ -58,7 +58,7 @@ export default function ArtisanPage() {
     <div className="mx-auto max-w-5xl">
       <div className="flex items-center justify-between">
         <Link href="/discover" className="inline-flex min-h-10 items-center gap-2 rounded-xl px-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5"><ArrowLeft size={17}/> Back to directory</Link>
-        <Link href="/register" className="hidden items-center gap-2 rounded-xl bg-[#b9573d] px-4 py-2.5 text-sm font-extrabold text-white sm:inline-flex">Join FundiConnect <ArrowUpRight size={15}/></Link>
+        {!currentUserId && <Link href="/register" className="hidden items-center gap-2 rounded-xl bg-[#b9573d] px-4 py-2.5 text-sm font-extrabold text-white sm:inline-flex">Join FundiConnect <ArrowUpRight size={15}/></Link>}
       </div>
 
       {loading ? <div className="mt-6 animate-pulse overflow-hidden rounded-[1.8rem] bg-white"><div className="h-36 bg-[#e3e8e0] sm:h-48"/><div className="p-7"><div className="h-20 w-20 rounded-2xl bg-[#e9e6df]"/><div className="mt-5 h-5 w-1/3 rounded bg-[#e9e6df]"/><div className="mt-3 h-4 w-2/3 rounded bg-[#efede7]"/></div></div>
