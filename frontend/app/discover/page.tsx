@@ -120,7 +120,7 @@ export default function Home() {
     <footer className="bg-[#1d3027] px-5 py-8 text-white/60"><div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><b className="text-sm text-white">FundiConnect</b><p className="mt-1 text-xs">Local skills. Local opportunity.</p></div><p className="text-xs">Built for Kenya's skilled community · © 2026 FundiConnect</p></div></footer>
 
     <nav aria-label="Mobile navigation" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-[#1d3027]/10 bg-[#fffdf9]/95 px-2 pb-[max(.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-8px_24px_rgba(28,41,35,.08)] backdrop-blur md:hidden">
-      {[{label:"Home",href:"/",icon:House},{label:"Discover",href:"/discover",icon:Compass},{label:"My Works",href:"/works",icon:BriefcaseBusiness},{label:"Inbox",href:"/inbox",icon:MessageCircle}].map(item=><Link key={item.label} href={item.href} className={`flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold ${item.label === "Discover" ? "text-[#a95338]" : "text-[#68736c]"}`}><item.icon size={19}/>{item.label}</Link>)}
+      {[{label:"Home",href:"/",icon:House},{label:"Discover",href:"/discover/",icon:Compass},{label:"My Works",href:"/works/",icon:BriefcaseBusiness},{label:"Inbox",href:"/inbox/",icon:MessageCircle}].map(item=><Link key={item.label} href={item.href} className={`flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold ${item.label === "Discover" ? "text-[#a95338]" : "text-[#68736c]"}`}><item.icon size={19}/>{item.label}</Link>)}
     </nav>
   </main>;
 }
