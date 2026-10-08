@@ -12,6 +12,9 @@ export default function EditProfilePage() {
   const router = useRouter();
   const [userId, setUserId] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState<"customer" | "artisan">("customer");
+  const [tradeCategory, setTradeCategory] = useState("ELECTRICAL");
+  const [isAvailable, setIsAvailable] = useState(false);
   const [form, setForm] = useState<ProfileForm>({ full_name: "", headline: "", bio: "", location_label: "", avatar_url: "" });
   const [preview, setPreview] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -29,13 +32,16 @@ export default function EditProfilePage() {
       setUserId(authData.user.id);
       setEmail(authData.user.email || "");
       const { data, error: profileError } = await supabase.from("users")
-        .select("full_name, headline, bio, location_label, avatar_url")
+        .select("role, trade_category, is_available, full_name, headline, bio, location_label, avatar_url")
         .eq("id", authData.user.id).maybeSingle();
       if (!active) return;
       if (profileError) setError("Unable to load your profile. Please try again.");
       else if (data) {
         const next = { full_name: data.full_name || "", headline: data.headline || "", bio: data.bio || "", location_label: data.location_label || "", avatar_url: data.avatar_url || "" };
         setForm(next); setPreview(next.avatar_url);
+        setRole(data.role === "artisan" ? "artisan" : "customer");
+        setTradeCategory(data.trade_category || "ELECTRICAL");
+        setIsAvailable(Boolean(data.is_available));
       }
       setLoading(false);
     }
@@ -64,13 +70,16 @@ export default function EditProfilePage() {
       if (uploadError) { setSaving(false); setError("Photo upload failed. Please try another image or try again later."); return; }
       avatarUrl = supabase.storage.from("avatars").getPublicUrl(path).data.publicUrl;
     }
-    const { error: updateError } = await supabase.from("users").update({
+    const updates = {
       full_name: form.full_name.trim(), headline: form.headline.trim() || null,
       bio: form.bio.trim() || null, location_label: form.location_label.trim() || null,
       avatar_url: avatarUrl || null,
-    }).eq("id", userId);
+      ...(role === "artisan" ? { trade_category: tradeCategory, is_available: isAvailable } : {}),
+    };
+    const { data: updatedProfile, error: updateError } = await supabase.from("users")
+      .update(updates).eq("id", userId).select("id").maybeSingle();
     setSaving(false);
-    if (updateError) { setError("Your profile couldn't be saved. Please check your connection and try again."); return; }
+    if (updateError || !updatedProfile) { setError("Your profile couldn't be saved. Please check that your profile setup is complete, then try again."); return; }
     setForm({ ...form, full_name: form.full_name.trim(), avatar_url: avatarUrl });
     setFile(null); setMessage("Profile saved successfully.");
   }
@@ -101,6 +110,24 @@ export default function EditProfilePage() {
             <label className="block text-sm font-bold">Professional headline <span className="font-normal text-[#879189]">(optional)</span><input maxLength={120} value={form.headline} onChange={e=>setForm({...form,headline:e.target.value})} placeholder="e.g. Experienced electrician serving Ruiru" className="mt-2 min-h-12 w-full rounded-xl border border-[#1d3027]/15 bg-white px-4 py-3 font-normal outline-none transition focus:border-[#244b3a] focus:ring-2 focus:ring-[#244b3a]/10"/></label>
             <label className="block text-sm font-bold">About you <span className="font-normal text-[#879189]">(optional)</span><textarea rows={5} maxLength={1500} value={form.bio} onChange={e=>setForm({...form,bio:e.target.value})} placeholder="Tell people about your experience, services and the work you do best." className="mt-2 w-full rounded-xl border border-[#1d3027]/15 bg-white px-4 py-3 font-normal leading-6 outline-none transition focus:border-[#244b3a] focus:ring-2 focus:ring-[#244b3a]/10"/></label>
             <label className="block text-sm font-bold">Service area <span className="font-normal text-[#879189]">(optional)</span><span className="mt-1 block text-xs font-normal text-[#879189]">County, town or neighbourhood only. Do not enter your home address.</span><input maxLength={120} value={form.location_label} onChange={e=>setForm({...form,location_label:e.target.value})} placeholder="e.g. Ruiru, Kiambu County" className="mt-2 min-h-12 w-full rounded-xl border border-[#1d3027]/15 bg-white px-4 py-3 font-normal outline-none transition focus:border-[#244b3a] focus:ring-2 focus:ring-[#244b3a]/10"/></label>
+            {role === "artisan" && <>
+              <label className="block text-sm font-bold">Main trade
+                <select value={tradeCategory} onChange={e => setTradeCategory(e.target.value)} className="mt-2 min-h-12 w-full rounded-xl border border-[#1d3027]/15 bg-white px-4 py-3 font-normal outline-none focus:border-[#244b3a]">
+                  <option value="ELECTRICAL">Electrician</option>
+                  <option value="PLUMBING">Plumber</option>
+                  <option value="CARPENTRY">Carpenter</option>
+                  <option value="MECHANIC">Mechanic</option>
+                  <option value="TECH_REPAIR">Tech Repair</option>
+                  <option value="WELDING">Welder</option>
+                  <option value="JOINERY">Joiner</option>
+                  <option value="TAILORING">Tailor</option>
+                </select>
+              </label>
+              <label className="flex items-start gap-3 rounded-xl border border-[#1d3027]/10 bg-[#f8f5ef] p-4">
+                <input type="checkbox" checked={isAvailable} onChange={e => setIsAvailable(e.target.checked)} className="mt-1 h-4 w-4 accent-[#244b3a]"/>
+                <span><span className="block text-sm font-bold">Available for work</span><span className="mt-1 block text-xs leading-5 text-[#69746d]">Turn this on when you can take new enquiries. It controls the availability indicator and Discover filter.</span></span>
+              </label>
+            </>}
             <div className="rounded-xl bg-[#f8f5ef] px-4 py-3 text-xs leading-5 text-[#69746d]">Signed in as <span className="font-bold text-[#34483a]">{email}</span>. Your role, email, verification status and ratings cannot be changed here.</div>
             {error && <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
             {message && <p role="status" className="rounded-xl border border-[#c9dfcf] bg-[#e6eee6] p-3 text-sm font-semibold text-[#326747]">{message}</p>}
