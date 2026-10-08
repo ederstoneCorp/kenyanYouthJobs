@@ -99,9 +99,9 @@ export default function Home() {
             <Link href="/register" className="inline-flex min-h-12 items-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10">Build your profile</Link>
           </div>
           <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium text-white/65">
-            <span className="inline-flex items-center gap-2"><ShieldCheck size={16} className="text-[#e5a34e}"/> Trust-first profiles</span>
-            <span className="inline-flex items-center gap-2"><MapPin size={16} className="text-[#e5a34e}"/> Local connections</span>
-            <span className="inline-flex items-center gap-2"><Users size={16} className="text-[#e5a34e}"/> Made for skilled work</span>
+            <span className="inline-flex items-center gap-2"><ShieldCheck size={16} className="text-[#e5a34e]"/> Trust-first profiles</span>
+            <span className="inline-flex items-center gap-2"><MapPin size={16} className="text-[#e5a34e]"/> Local connections</span>
+            <span className="inline-flex items-center gap-2"><Users size={16} className="text-[#e5a34e]"/> Made for skilled work</span>
           </div>
         </div>
         <div className="mx-auto w-full max-w-lg lg:ml-auto">
