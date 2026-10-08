@@ -17,10 +17,11 @@ const trades = [
   { name: "Electrician", icon: Zap },
   { name: "Plumber", icon: Wrench },
   { name: "Carpenter", icon: Hammer },
+  { name: "Joiner", icon: Hammer },
+  { name: "Welder", icon: Wrench },
+  { name: "Tailor", icon: Scissors },
   { name: "Mechanic", icon: SlidersHorizontal },
   { name: "Tech Repair", icon: Menu },
-  { name: "Welder", icon: Hammer },
-  { name: "Tailor", icon: Scissors },
 ];
 
 export default function Home() {
