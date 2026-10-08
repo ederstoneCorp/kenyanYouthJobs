@@ -30,8 +30,8 @@ export default function Home() {
           <Link href="/how-it-works/" className="text-[#59665f] hover:text-[#244b3a]">How it works</Link>
         </nav>
         <div className="ml-auto flex items-center gap-2 md:ml-5">
-          <Link href={isSignedIn ? "/profile" : "/login"} className="rounded-xl px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">{isSignedIn ? "My Profile" : "Sign in"}</Link>
-          {!isSignedIn && <Link href="/register" className="rounded-xl bg-[#b9573d] px-3.5 py-2.5 text-xs font-extrabold text-white shadow-sm transition hover:bg-[#98442f] sm:px-4 sm:text-sm">Join the network</Link>}
+          <Link href={isSignedIn ? "/profile/" : "/login/"} className="rounded-xl px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">{isSignedIn ? "My Profile" : "Sign in"}</Link>
+          {!isSignedIn && <Link href="/register/" className="rounded-xl bg-[#b9573d] px-3.5 py-2.5 text-xs font-extrabold text-white shadow-sm transition hover:bg-[#98442f] sm:px-4 sm:text-sm">Join the network</Link>}
         </div>
       </div>
     </header>
@@ -46,7 +46,7 @@ export default function Home() {
           <p className="mt-5 max-w-xl text-sm leading-7 text-white/70 sm:text-base">A professional network for fundis, makers and skilled tradespeople. Show your work, build trust and connect with people who need your skills.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/discover/" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#e5a34e] px-5 py-3 text-sm font-extrabold text-[#1d3027] shadow-lg shadow-black/10 transition hover:bg-[#f0b76d]">Find a fundi <ArrowUpRight size={17}/></Link>
-            <Link href={isSignedIn ? "/profile/edit/" : "/register"} className="inline-flex min-h-12 items-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10">{isSignedIn ? "Edit your profile" : "Build your profile"}</Link>
+            <Link href={isSignedIn ? "/profile/edit/" : "/register/"} className="inline-flex min-h-12 items-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10">{isSignedIn ? "Edit your profile" : "Build your profile"}</Link>
           </div>
           <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium text-white/65">
             <span className="inline-flex items-center gap-2"><ShieldCheck size={16} className="text-[#e5a34e]"/> Trust-first profiles</span>
@@ -74,7 +74,7 @@ export default function Home() {
     <footer className="bg-[#1d3027] px-5 py-8 text-white/60"><div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><b className="text-sm text-white">FundiConnect</b><p className="mt-1 text-xs">Local skills. Local opportunity.</p></div><p className="text-xs">Built for Kenya's skilled community · © 2026 FundiConnect</p></div></footer>
 
     <nav aria-label="Mobile navigation" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-[#1d3027]/10 bg-[#fffdf9]/95 px-2 pb-[max(.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-8px_24px_rgba(28,41,35,.08)] backdrop-blur md:hidden">
-      {[{label:"Home",href:"/",icon:House},{label:"Discover",href:"/discover",icon:Compass},{label:"My Works",href:"/works",icon:BriefcaseBusiness},{label:"Inbox",href:"/inbox",icon:MessageCircle}].map(item=><Link key={item.label} href={item.href} className={`flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold ${item.label === "Home" ? "text-[#a95338]" : "text-[#68736c]"}`}><item.icon size={19}/>{item.label}</Link>)}
+      {[{label:"Home",href:"/",icon:House},{label:"Discover",href:"/discover/",icon:Compass},{label:"My Works",href:"/works/",icon:BriefcaseBusiness},{label:"Inbox",href:"/inbox/",icon:MessageCircle}].map(item=><Link key={item.label} href={item.href} className={`flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold ${item.label === "Home" ? "text-[#a95338]" : "text-[#68736c]"}`}><item.icon size={19}/>{item.label}</Link>)}
     </nav>
   </main>;
 }
