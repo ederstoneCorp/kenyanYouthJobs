@@ -57,12 +57,12 @@ export default function ArtisanPage() {
   return <main className="min-h-screen bg-[#f8f5ef] px-4 pb-10 pt-5 text-[#1c2923] sm:px-6 sm:pt-8">
     <div className="mx-auto max-w-5xl">
       <div className="flex items-center justify-between">
-        <Link href="/" className="inline-flex min-h-10 items-center gap-2 rounded-xl px-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5"><ArrowLeft size={17}/> Back to directory</Link>
+        <Link href="/discover" className="inline-flex min-h-10 items-center gap-2 rounded-xl px-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5"><ArrowLeft size={17}/> Back to directory</Link>
         <Link href="/register" className="hidden items-center gap-2 rounded-xl bg-[#b9573d] px-4 py-2.5 text-sm font-extrabold text-white sm:inline-flex">Join FundiConnect <ArrowUpRight size={15}/></Link>
       </div>
 
       {loading ? <div className="mt-6 animate-pulse overflow-hidden rounded-[1.8rem] bg-white"><div className="h-36 bg-[#e3e8e0] sm:h-48"/><div className="p-7"><div className="h-20 w-20 rounded-2xl bg-[#e9e6df]"/><div className="mt-5 h-5 w-1/3 rounded bg-[#e9e6df]"/><div className="mt-3 h-4 w-2/3 rounded bg-[#efede7]"/></div></div>
-      : error ? <div role="alert" className="mt-6 rounded-3xl border border-[#1d3027]/8 bg-white p-10 text-center"><h1 className="text-xl font-black">Profile unavailable</h1><p className="mt-2 text-sm text-[#69746d]">{error}</p><Link href="/" className="mt-5 inline-flex rounded-xl bg-[#244b3a] px-4 py-3 text-sm font-bold text-white">Return to directory</Link></div>
+      : error ? <div role="alert" className="mt-6 rounded-3xl border border-[#1d3027]/8 bg-white p-10 text-center"><h1 className="text-xl font-black">Profile unavailable</h1><p className="mt-2 text-sm text-[#69746d]">{error}</p><Link href="/discover" className="mt-5 inline-flex rounded-xl bg-[#244b3a] px-4 py-3 text-sm font-bold text-white">Return to directory</Link></div>
       : profile ? <>
         <section className="mt-5 overflow-hidden rounded-[1.8rem] border border-[#1d3027]/8 bg-white shadow-[0_10px_40px_rgba(28,41,35,.055)]">
           <div className="relative h-32 overflow-hidden bg-[#1d3027] sm:h-48">
@@ -107,7 +107,7 @@ export default function ArtisanPage() {
             <p className="text-[10px] font-extrabold uppercase tracking-[.2em] text-[#a95338]">Connect professionally</p>
             <h2 className="mt-2 text-xl font-black">{isOwnProfile ? "Your public profile" : "Need this skill?"}</h2>
             <p className="mt-2 text-sm leading-6 text-[#69746d]">{isOwnProfile ? "This is how other people see your professional profile." : "Contact and job requests will be enabled after the secure connection flow is ready."}</p>
-            {isOwnProfile ? <Link href="/profile" className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#244b3a] px-4 py-3 text-sm font-extrabold text-white">Edit my profile <ArrowUpRight size={16}/></Link>
+            {isOwnProfile ? <Link href="/profile/edit" className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#244b3a] px-4 py-3 text-sm font-extrabold text-white">Edit my profile <ArrowUpRight size={16}/></Link>
             : <Link href="/login" className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#b9573d] px-4 py-3 text-sm font-extrabold text-white">Sign in to connect <MessageCircle size={16}/></Link>}
             <div className="mt-5 space-y-3 border-t border-[#1d3027]/8 pt-4 text-xs text-[#69746d]"><p className="flex items-center gap-2"><BadgeCheck size={15} className="text-[#3b7654]"/> Profile details are public</p><p className="flex items-center gap-2"><ShieldCheck size={15} className="text-[#3b7654]"/> Account editing stays private</p><p className="flex items-center gap-2"><Clock3 size={15} className="text-[#a95338]"/> Availability shown by artisan</p></div>
           </aside>
