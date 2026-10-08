@@ -75,14 +75,15 @@ export default function Home() {
           <span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#244b3a] text-lg font-black text-white">F</span>
           <span><b className="block text-base tracking-tight sm:text-lg">FundiConnect</b><span className="block text-[9px] font-bold uppercase tracking-[.2em] text-[#a95338]">Skills that build Kenya</span></span>
         </Link>
-        <nav className="ml-auto hidden items-center gap-6 text-sm font-semibold md:flex">
-          <Link href="/discover" className="text-[#244b3a]">Discover</Link>
-          <Link href="/how-it-works" className="text-[#59665f] hover:text-[#244b3a]">How it works</Link>
-          <Link href="/profile" className="text-[#59665f] hover:text-[#244b3a]">My profile</Link>
+        <nav aria-label="Main navigation" className="ml-auto hidden items-center gap-5 text-sm font-semibold md:flex">
+          <Link href="/discover/" className="text-[#244b3a]">Discover</Link>
+          <Link href="/works/" className="text-[#59665f] hover:text-[#244b3a]">My Works</Link>
+          <Link href="/inbox/" className="text-[#59665f] hover:text-[#244b3a]">Inbox</Link>
+          <Link href="/how-it-works/" className="text-[#59665f] hover:text-[#244b3a]">How it works</Link>
         </nav>
         <div className="ml-auto flex items-center gap-2 md:ml-5">
-          <Link href={isSignedIn ? "/profile" : "/login"} className="rounded-xl px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">{isSignedIn ? "My Profile" : "Sign in"}</Link>
-          {!isSignedIn && <Link href="/register" className="rounded-xl bg-[#b9573d] px-3.5 py-2.5 text-xs font-extrabold text-white shadow-sm transition hover:bg-[#98442f] sm:px-4 sm:text-sm">Join the network</Link>}
+          <Link href={isSignedIn ? "/profile/" : "/login/"} className="rounded-xl px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">{isSignedIn ? "My Profile" : "Sign in"}</Link>
+          {!isSignedIn && <Link href="/register/" className="rounded-xl bg-[#b9573d] px-3.5 py-2.5 text-xs font-extrabold text-white shadow-sm transition hover:bg-[#98442f] sm:px-4 sm:text-sm">Join the network</Link>}
         </div>
       </div>
     </header>
