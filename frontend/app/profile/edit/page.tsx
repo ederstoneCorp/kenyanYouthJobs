@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Camera, LoaderCircle, Save, UserRound, MapPin, ShieldCheck, BadgeCheck } from "lucide-react";
-import { supabase } from "../lib/supabase";
+import { supabase } from "../../lib/supabase";
 
 type ProfileForm = { full_name: string; headline: string; bio: string; location_label: string; avatar_url: string };
 
