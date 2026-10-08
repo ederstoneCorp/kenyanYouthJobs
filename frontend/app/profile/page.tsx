@@ -42,7 +42,7 @@ export default function MyProfilePage() {
         .maybeSingle();
 
       if (!active) return;
-      if (profileError) setError("We couldn't load your profile. Please try again.");
+      if (profileError) setError(`Supabase profile lookup failed (${profileError.code || "no error code"}): ${profileError.message}`);
       else if (data) setProfile({
         role: data.role === "artisan" ? "artisan" : "customer",
         full_name: data.full_name || "Your name",
@@ -51,7 +51,7 @@ export default function MyProfilePage() {
         avatar_url: data.avatar_url || null,
         bio: data.bio || null,
       });
-      else setError("Your profile details have not been created yet. Open Edit Profile to complete them.");
+      else setError("No matching profile row was found in public.users for this account. Check the profile migration and account backfill in Supabase.");
       setLoading(false);
     }
     load();
