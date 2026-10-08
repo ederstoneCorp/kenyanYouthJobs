@@ -35,7 +35,8 @@ export default function EditProfilePage() {
         .select("role, trade_category, is_available, full_name, headline, bio, location_label, avatar_url")
         .eq("id", authData.user.id).maybeSingle();
       if (!active) return;
-      if (profileError) setError("Unable to load your profile. Please try again.");
+      if (profileError) setError(`Unable to load your profile from Supabase (${profileError.code || "no error code"}): ${profileError.message}`);
+      else if (!data) setError("No profile row was found for this signed-in account in public.users. The profile migration or account backfill may be missing.");
       else if (data) {
         const next = { full_name: data.full_name || "", headline: data.headline || "", bio: data.bio || "", location_label: data.location_label || "", avatar_url: data.avatar_url || "" };
         setForm(next); setPreview(next.avatar_url);
@@ -67,7 +68,7 @@ export default function EditProfilePage() {
       const extension = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
       const path = userId + "/" + Date.now() + "." + extension;
       const { error: uploadError } = await supabase.storage.from("avatars").upload(path, file, { upsert: true, contentType: file.type });
-      if (uploadError) { setSaving(false); setError("Photo upload failed. Please try another image or try again later."); return; }
+      if (uploadError) { setSaving(false); setError(`Photo upload failed (${uploadError.statusCode || "no status"}): ${uploadError.message}`); return; }
       avatarUrl = supabase.storage.from("avatars").getPublicUrl(path).data.publicUrl;
     }
     const updates = {
@@ -79,7 +80,7 @@ export default function EditProfilePage() {
     const { data: updatedProfile, error: updateError } = await supabase.from("users")
       .update(updates).eq("id", userId).select("id").maybeSingle();
     setSaving(false);
-    if (updateError || !updatedProfile) { setError("Your profile couldn't be saved. Please check that your profile setup is complete, then try again."); return; }
+    if (updateError || !updatedProfile) { setError(updateError ? `Profile save failed (${updateError.code || "no error code"}): ${updateError.message}` : "Supabase returned no updated profile row. Check the public.users row and update permissions for this account."); return; }
     setForm({ ...form, full_name: form.full_name.trim(), avatar_url: avatarUrl });
     setFile(null); setMessage("Profile saved successfully.");
   }
