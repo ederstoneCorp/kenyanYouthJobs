@@ -96,7 +96,7 @@ export default function Home() {
           <h1 className="max-w-3xl text-[2.65rem] font-black leading-[1.04] tracking-[-.045em] sm:text-6xl lg:text-[4.4rem]">Your skill is your <span className="text-[#e8ad63]">story.</span><br/>Make it visible.</h1>
           <p className="mt-5 max-w-xl text-sm leading-7 text-white/70 sm:text-base">A professional network for fundis, makers and skilled tradespeople. Show your work, build trust and connect with people who need your skills.</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#discover" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#e5a34e] px-5 py-3 text-sm font-extrabold text-[#1d3027] shadow-lg shadow-black/10 transition hover:bg-[#f0b76d]">Find a fundi <ArrowUpRight size={17}/></a>
+            <Link href="/discover" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#e5a34e] px-5 py-3 text-sm font-extrabold text-[#1d3027] shadow-lg shadow-black/10 transition hover:bg-[#f0b76d]">Find a fundi <ArrowUpRight size={17}/></Link>
             <Link href="/register" className="inline-flex min-h-12 items-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10">Build your profile</Link>
           </div>
           <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium text-white/65">
