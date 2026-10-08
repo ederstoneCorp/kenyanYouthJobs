@@ -16,7 +16,7 @@ Discover nearby artisans, filter by trade and availability, view verification/ra
 Frontend: `cd frontend && npm install && npm run dev`
 Backend: `cd backend && mvn spring-boot:run`
 
-The first frontend iteration uses demo data while the API and PostGIS foundation are being wired in.
+The deployed frontend uses Supabase. The Spring Boot/PostGIS backend remains a separate prototype and is not yet connected to the deployed frontend.
 
 ## Frontend data setup (required)
 
