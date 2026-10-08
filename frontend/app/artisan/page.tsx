@@ -108,7 +108,7 @@ export default function ArtisanPage() {
             <h2 className="mt-2 text-xl font-black">{isOwnProfile ? "Your public profile" : "Need this skill?"}</h2>
             <p className="mt-2 text-sm leading-6 text-[#69746d]">{isOwnProfile ? "This is how other people see your professional profile." : "Contact and job requests will be enabled after the secure connection flow is ready."}</p>
             {isOwnProfile ? <Link href="/profile/edit" className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#244b3a] px-4 py-3 text-sm font-extrabold text-white">Edit my profile <ArrowUpRight size={16}/></Link>
-            : <Link href="/login" className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#b9573d] px-4 py-3 text-sm font-extrabold text-white">Sign in to connect <MessageCircle size={16}/></Link>}
+            : <div className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#f1eee8] px-4 py-3 text-sm font-extrabold text-[#777e78]" aria-disabled="true"><MessageCircle size={16}/> Messaging coming soon</div>}
             <div className="mt-5 space-y-3 border-t border-[#1d3027]/8 pt-4 text-xs text-[#69746d]"><p className="flex items-center gap-2"><BadgeCheck size={15} className="text-[#3b7654]"/> Profile details are public</p><p className="flex items-center gap-2"><ShieldCheck size={15} className="text-[#3b7654]"/> Account editing stays private</p><p className="flex items-center gap-2"><Clock3 size={15} className="text-[#a95338]"/> Availability shown by artisan</p></div>
           </aside>
         </div>
