@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Search, MapPin, ShieldCheck, Star, SlidersHorizontal, Hammer, Wrench, Zap, Scissors, Menu, House, Compass, BriefcaseBusiness, MessageCircle, UserRound, ArrowUpRight, BadgeCheck, Users, Clock3 } from "lucide-react";
-import { supabase } from "./lib/supabase";
+import { supabase } from "../lib/supabase";
 
 type Artisan = { id: string; name: string; trade: string; rating: number; jobs: number; verified: boolean; available: boolean; avatarUrl: string | null; headline: string | null; location: string | null };
 const tradeLabels: Record<string, string> = {
