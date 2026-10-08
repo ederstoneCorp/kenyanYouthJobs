@@ -28,7 +28,7 @@ export default function EditProfilePage() {
     async function load() {
       const { data: authData, error: authError } = await supabase.auth.getUser();
       if (!active) return;
-      if (authError || !authData.user) { router.replace("/login"); return; }
+      if (authError || !authData.user) { router.replace("/login/"); return; }
       setUserId(authData.user.id);
       setEmail(authData.user.email || "");
       const { data, error: profileError } = await supabase.from("users")
@@ -88,7 +88,7 @@ export default function EditProfilePage() {
 
   return <main className="min-h-screen bg-[#f8f5ef] px-4 py-5 text-[#1c2923] sm:px-6 sm:py-8">
     <div className="mx-auto max-w-5xl">
-      <header className="flex items-center justify-between gap-3"><Link href="/profile" className="inline-flex min-h-10 items-center gap-2 rounded-xl px-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5"><ArrowLeft size={17}/> Back to my profile</Link><Link href="/" className="flex items-center gap-2 text-sm font-black"><span className="grid h-8 w-8 place-items-center rounded-xl bg-[#244b3a] text-white">F</span><span className="hidden sm:inline">FundiConnect</span></Link></header>
+      <header className="flex items-center justify-between gap-3"><Link href="/profile/" className="inline-flex min-h-10 items-center gap-2 rounded-xl px-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5"><ArrowLeft size={17}/> Back to my profile</Link><Link href="/" className="flex items-center gap-2 text-sm font-black"><span className="grid h-8 w-8 place-items-center rounded-xl bg-[#244b3a] text-white">F</span><span className="hidden sm:inline">FundiConnect</span></Link></header>
 
       <div className="mt-6 grid gap-5 lg:grid-cols-[.75fr_1.25fr]">
         <aside className="h-fit overflow-hidden rounded-[1.6rem] bg-[#1d3027] p-6 text-white sm:p-8">
