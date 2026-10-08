@@ -29,7 +29,7 @@ export default function Home() {
           <Link href="/profile" className="text-[#59665f] hover:text-[#244b3a]">My profile</Link>
         </nav>
         <div className="ml-auto flex items-center gap-2 md:ml-5">
-          <Link href={isSignedIn ? "/profile" : "/login"} className="rounded-xl px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">{isSignedIn ? "Edit profile" : "Sign in"}</Link>
+          <Link href={isSignedIn ? "/profile" : "/login"} className="rounded-xl px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">{isSignedIn ? "My Profile" : "Sign in"}</Link>
           <Link href="/register" className="rounded-xl bg-[#b9573d] px-3.5 py-2.5 text-xs font-extrabold text-white shadow-sm transition hover:bg-[#98442f] sm:px-4 sm:text-sm">Join the network</Link>
         </div>
       </div>
