@@ -23,10 +23,11 @@ export default function Home() {
           <span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#244b3a] text-lg font-black text-white">F</span>
           <span><b className="block text-base tracking-tight sm:text-lg">FundiConnect</b><span className="block text-[9px] font-bold uppercase tracking-[.2em] text-[#a95338]">Skills that build Kenya</span></span>
         </Link>
-        <nav className="ml-auto hidden items-center gap-6 text-sm font-semibold md:flex">
-          <Link href="/discover" className="text-[#244b3a]">Discover</Link>
-          <Link href="/how-it-works" className="text-[#59665f] hover:text-[#244b3a]">How it works</Link>
-          <Link href="/profile" className="text-[#59665f] hover:text-[#244b3a]">My profile</Link>
+        <nav aria-label="Main navigation" className="ml-auto hidden items-center gap-5 text-sm font-semibold md:flex">
+          <Link href="/discover/" className="text-[#244b3a] hover:text-[#a95338]">Discover</Link>
+          <Link href="/works/" className="text-[#59665f] hover:text-[#244b3a]">My Works</Link>
+          <Link href="/inbox/" className="text-[#59665f] hover:text-[#244b3a]">Inbox</Link>
+          <Link href="/how-it-works/" className="text-[#59665f] hover:text-[#244b3a]">How it works</Link>
         </nav>
         <div className="ml-auto flex items-center gap-2 md:ml-5">
           <Link href={isSignedIn ? "/profile" : "/login"} className="rounded-xl px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">{isSignedIn ? "My Profile" : "Sign in"}</Link>
@@ -44,7 +45,7 @@ export default function Home() {
           <h1 className="max-w-3xl text-[2.65rem] font-black leading-[1.04] tracking-[-.045em] sm:text-6xl lg:text-[4.4rem]">Your skill is your <span className="text-[#e8ad63]">story.</span><br/>Make it visible.</h1>
           <p className="mt-5 max-w-xl text-sm leading-7 text-white/70 sm:text-base">A professional network for fundis, makers and skilled tradespeople. Show your work, build trust and connect with people who need your skills.</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/discover" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#e5a34e] px-5 py-3 text-sm font-extrabold text-[#1d3027] shadow-lg shadow-black/10 transition hover:bg-[#f0b76d]">Find a fundi <ArrowUpRight size={17}/></Link>
+            <Link href="/discover/" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#e5a34e] px-5 py-3 text-sm font-extrabold text-[#1d3027] shadow-lg shadow-black/10 transition hover:bg-[#f0b76d]">Find a fundi <ArrowUpRight size={17}/></Link>
             <Link href={isSignedIn ? "/profile/edit/" : "/register"} className="inline-flex min-h-12 items-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10">{isSignedIn ? "Edit your profile" : "Build your profile"}</Link>
           </div>
           <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium text-white/65">
