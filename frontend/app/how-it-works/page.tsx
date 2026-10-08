@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { House, Compass, BriefcaseBusiness, MessageCircle, ArrowLeft, UserRound } from "lucide-react";
+import { House, Compass, BriefcaseBusiness, MessageCircle, ArrowLeft } from "lucide-react";
 
 export default function Page() {
   const active = "";
@@ -13,7 +13,7 @@ export default function Page() {
           <span><b className="block text-base tracking-tight sm:text-lg">FundiConnect</b><span className="block text-[9px] font-bold uppercase tracking-[.2em] text-[#a95338]">Skills that build Kenya</span></span>
         </Link>
         <Link href="/" className="ml-auto inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5"><ArrowLeft size={16}/> Home</Link>
-        <Link href="/profile" className="rounded-xl border border-[#244b3a]/15 px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5"><UserRound size={16}/></Link>
+        <Link href="/profile/" className="ml-auto inline-flex min-h-10 items-center rounded-xl border border-[#244b3a]/15 px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">My Profile</Link>
       </div>
     </header>
     <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
@@ -25,7 +25,7 @@ export default function Page() {
   {n:"02",title:"Discover the right people",body:"Search by skill and location to find artisans or customers that fit your needs."},
   {n:"03",title:"Build trust through work",body:"Share real work examples and grow your reputation as the platform's portfolio and trust features become available."}
 ].map(item=><article key={item.n} className="rounded-2xl border border-[#1d3027]/8 bg-[#fffdf9] p-6"><span className="text-sm font-black text-[#b9573d]">{item.n}</span><h2 className="mt-4 text-lg font-extrabold">{item.title}</h2><p className="mt-2 text-sm leading-6 text-[#69746d]">{item.body}</p></article>)}</div>
-<div className="mt-8"><Link href="/discover" className="inline-flex rounded-xl bg-[#244b3a] px-5 py-3 text-sm font-bold text-white">Discover fundis</Link></div>
+<div className="mt-8"><Link href="/discover/" className="inline-flex rounded-xl bg-[#244b3a] px-5 py-3 text-sm font-bold text-white">Discover fundis</Link></div>
     </section>
     <footer className="border-t border-[#1d3027]/10 bg-[#fffdf9] px-5 py-6 text-center text-xs text-[#69746d]">FundiConnect · Local skills. Local opportunity.</footer>
     <nav aria-label="Mobile navigation" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-[#1d3027]/10 bg-[#fffdf9]/95 px-2 pb-[max(.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-8px_24px_rgba(28,41,35,.08)] backdrop-blur md:hidden">
