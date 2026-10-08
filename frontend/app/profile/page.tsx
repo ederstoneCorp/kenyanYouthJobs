@@ -91,7 +91,7 @@ export default function MyProfilePage() {
             {profile.role === "artisan" && <Link href={"/artisan/?id=" + encodeURIComponent(userId)} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#244b3a]/20 bg-white px-4 py-3 text-sm font-extrabold text-[#244b3a] hover:bg-[#e6eee6]"><Eye size={17}/> View public profile <ArrowUpRight size={15}/></Link>}
             <Link href="/profile/edit/" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#b9573d] px-4 py-3 text-sm font-extrabold text-white hover:bg-[#98442f]"><Pencil size={17}/> Edit profile</Link>
           </div>
-        </> : <div className="p-5 sm:p-8"><Link href="/profile/edit" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#b9573d] px-4 py-3 text-sm font-extrabold text-white"><Pencil size={17}/> Complete profile</Link></div>}
+        </> : <div className="p-5 sm:p-8"><Link href="/profile/edit/" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#b9573d] px-4 py-3 text-sm font-extrabold text-white"><Pencil size={17}/> Complete profile</Link></div>}
       </section>
 
       <p className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-[#879189]"><BadgeCheck size={14}/> Only you can edit your account details.</p>
