@@ -104,7 +104,7 @@ export default function EditProfilePage() {
             <div className="rounded-xl bg-[#f8f5ef] px-4 py-3 text-xs leading-5 text-[#69746d]">Signed in as <span className="font-bold text-[#34483a]">{email}</span>. Your role, email, verification status and ratings cannot be changed here.</div>
             {error && <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
             {message && <p role="status" className="rounded-xl border border-[#c9dfcf] bg-[#e6eee6] p-3 text-sm font-semibold text-[#326747]">{message}</p>}
-            <button type="submit" disabled={saving} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#b9573d] px-5 py-3.5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#98442f] disabled:cursor-not-allowed disabled:opacity-60">{saving ? <LoaderCircle size={17} className="animate-spin"/> : <Save size={17}/>} {saving ? "Saving profile…" : "Save profile"}</button>
+            <div className="grid gap-3 sm:grid-cols-2"><Link href="/profile" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#244b3a]/20 px-5 py-3.5 text-sm font-extrabold text-[#244b3a] hover:bg-[#f8f5ef]">Cancel</Link><button type="submit" disabled={saving} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#b9573d] px-5 py-3.5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#98442f] disabled:cursor-not-allowed disabled:opacity-60">{saving ? <LoaderCircle size={17} className="animate-spin"/> : <Save size={17}/>} {saving ? "Saving profile…" : "Save changes"}</button></div>
           </form>
         </section>
       </div>
