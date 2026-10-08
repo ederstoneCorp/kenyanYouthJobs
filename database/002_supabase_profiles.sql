@@ -149,7 +149,10 @@ from public.users
 where role = 'artisan';
 
 grant select on public.public_artisan_directory to anon, authenticated;
-grant select, update on public.users to authenticated;
+grant select on public.users to authenticated;
+revoke update on public.users from authenticated;
+grant update (full_name, phone_number, trade_category, hourly_rate, headline, bio, location_label, avatar_url, is_available)
+  on public.users to authenticated;
 
 -- Public avatar URLs are enabled; writes are limited to each user's own folder.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
