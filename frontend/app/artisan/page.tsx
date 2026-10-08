@@ -12,6 +12,8 @@ type Profile = {
   bio: string | null; location_label: string | null;
 };
 
+type WorkSample = { id: string; title: string; description: string | null; image_url: string; created_at: string };
+
 const tradeLabels: Record<string, string> = {
   ELECTRICAL: "Electrician", PLUMBING: "Plumber", CARPENTRY: "Carpenter",
   MECHANIC: "Mechanic", TECH_REPAIR: "Tech Repair", WELDING: "Welder",
@@ -20,6 +22,8 @@ const tradeLabels: Record<string, string> = {
 
 export default function ArtisanPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [workSamples, setWorkSamples] = useState<WorkSample[]>([]);
+  const [portfolioError, setPortfolioError] = useState("");
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -44,7 +48,17 @@ export default function ArtisanPage() {
         console.error("Artisan profile error:", queryError.message);
         setError("We couldn't load this profile. Please try again shortly.");
       } else if (!data) setError("This artisan profile could not be found.");
-      else setProfile(data as Profile);
+      else {
+        setProfile(data as Profile);
+        const { data: samples, error: samplesError } = await supabase.from("work_samples")
+          .select("id, title, description, image_url, created_at")
+          .eq("artisan_id", profileId).order("created_at", { ascending: false });
+        if (!active) return;
+        if (samplesError) {
+          console.error("Artisan portfolio error:", samplesError.message);
+          setPortfolioError("Work samples are temporarily unavailable.");
+        } else setWorkSamples((samples ?? []) as WorkSample[]);
+      }
       setLoading(false);
     }
     loadProfile();
@@ -99,7 +113,7 @@ export default function ArtisanPage() {
             </section>
             <section className="rounded-[1.5rem] border border-[#1d3027]/8 bg-white p-5 sm:p-7">
               <div className="flex items-center justify-between gap-3"><div><p className="text-[10px] font-extrabold uppercase tracking-[.2em] text-[#a95338]">Proof of skill</p><h2 className="mt-1 text-xl font-black">Work portfolio</h2></div><Images size={21} className="text-[#244b3a]"/></div>
-              <div className="mt-4 rounded-2xl border border-dashed border-[#1d3027]/15 bg-[#f8f5ef] px-5 py-8 text-center"><div className="mx-auto grid h-11 w-11 place-items-center rounded-xl bg-white text-[#a95338]"><Images size={20}/></div><p className="mt-3 text-sm font-extrabold">Work samples are coming next</p><p className="mx-auto mt-1 max-w-sm text-xs leading-5 text-[#78837b]">This space will showcase finished projects, before-and-after photos and short work clips. No sample work is shown until the artisan uploads it.</p></div>
+{portfolioError ? <p role="status" className="mt-4 rounded-xl bg-[#f8f5ef] p-4 text-sm text-[#69746d]">{portfolioError}</p> : workSamples.length === 0 ? <div className="mt-4 rounded-2xl border border-dashed border-[#1d3027]/15 bg-[#f8f5ef] px-5 py-8 text-center"><div className="mx-auto grid h-11 w-11 place-items-center rounded-xl bg-white text-[#a95338]"><Images size={20}/></div><p className="mt-3 text-sm font-extrabold">No work samples yet</p><p className="mx-auto mt-1 max-w-sm text-xs leading-5 text-[#78837b]">This artisan has not added any project photos to their portfolio yet.</p></div> : <div className="mt-4 grid gap-4 sm:grid-cols-2">{workSamples.map(sample => <article key={sample.id} className="overflow-hidden rounded-2xl border border-[#1d3027]/8 bg-white"><img src={sample.image_url} alt={sample.title} loading="lazy" className="h-48 w-full object-cover"/><div className="p-4"><h3 className="font-extrabold">{sample.title}</h3>{sample.description && <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-[#69746d]">{sample.description}</p>}<p className="mt-3 text-[11px] text-[#879189]">{new Date(sample.created_at).toLocaleDateString()}</p></div></article>)}</div>}
             </section>
           </div>
 
