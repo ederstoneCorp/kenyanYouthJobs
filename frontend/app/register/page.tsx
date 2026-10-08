@@ -195,7 +195,7 @@ export default function RegisterPage() {
           </form>
 
           <p className="mt-5 text-center text-sm text-black/60">
-            Already registered? <Link href="/login" className="font-bold text-forest underline">Sign in</Link>
+            Already registered? <Link href="/login/" className="font-bold text-forest underline">Sign in</Link>
           </p>
           <p className="mt-4 text-xs leading-5 text-black/50">
             Artisan profiles start unverified. FundiConnect verification must be completed separately.
