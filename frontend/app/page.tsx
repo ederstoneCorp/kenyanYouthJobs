@@ -1,72 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Search, MapPin, ShieldCheck, Star, SlidersHorizontal, Hammer, Wrench, Zap, Scissors, Menu, House, Compass, BriefcaseBusiness, MessageCircle, UserRound, ArrowUpRight, BadgeCheck, Users, Clock3 } from "lucide-react";
+import { MapPin, ShieldCheck, Hammer, House, Compass, BriefcaseBusiness, MessageCircle, UserRound, ArrowUpRight, BadgeCheck, Users } from "lucide-react";
 import { supabase } from "./lib/supabase";
 
-type Artisan = { id: string; name: string; trade: string; rating: number; jobs: number; verified: boolean; available: boolean; avatarUrl: string | null; headline: string | null; location: string | null };
-const tradeLabels: Record<string, string> = {
-  ELECTRICAL: "Electrician", PLUMBING: "Plumber", CARPENTRY: "Carpenter",
-  MECHANIC: "Mechanic", TECH_REPAIR: "Tech Repair", WELDING: "Welder",
-  JOINERY: "Joiner", TAILORING: "Tailor",
-};
-const displayTrade = (value: string) => tradeLabels[value.toUpperCase()] ?? value;
-const trades = [
-  { name: "All trades", icon: Compass },
-  { name: "Electrician", icon: Zap },
-  { name: "Plumber", icon: Wrench },
-  { name: "Carpenter", icon: Hammer },
-  { name: "Joiner", icon: Hammer },
-  { name: "Welder", icon: Wrench },
-  { name: "Tailor", icon: Scissors },
-  { name: "Mechanic", icon: SlidersHorizontal },
-  { name: "Tech Repair", icon: Menu },
-];
-
 export default function Home() {
-  const [artisans, setArtisans] = useState<Artisan[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [trade, setTrade] = useState("All trades");
-  const [query, setQuery] = useState("");
-  const [available, setAvailable] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
     let active = true;
-    async function load() {
-      const { data: authData } = await supabase.auth.getUser();
-      const currentUserId = authData.user?.id ?? null;
-      if (active) setIsSignedIn(Boolean(currentUserId));
-      const result = await supabase.from("public_artisan_directory")
-        .select("id, full_name, trade_category, is_verified, is_available, rating_avg, completed_jobs, avatar_url, headline, location_label")
-        .order("is_available", { ascending: false }).order("rating_avg", { ascending: false });
-      if (!active) return;
-      if (result.error) {
-        console.error("Supabase artisan directory error:", result.error.message);
-        setErrorMessage("We couldn't load the directory. Check your connection and try again.");
-      } else {
-        setArtisans((result.data ?? [])
-          .filter((row: any) => !currentUserId || row.id !== currentUserId)
-          .map((row: any) => ({
-            id: row.id, name: row.full_name || "Fundi profile", trade: displayTrade(row.trade_category || "Artisan"),
-            rating: Number(row.rating_avg ?? 0), jobs: Number(row.completed_jobs ?? 0),
-            verified: Boolean(row.is_verified), available: Boolean(row.is_available),
-            avatarUrl: row.avatar_url ?? null, headline: row.headline ?? null, location: row.location_label ?? null
-          })));
-      }
-      setLoading(false);
-    }
-    load();
+    supabase.auth.getUser().then(({ data }) => {
+      if (active) setIsSignedIn(Boolean(data.user));
+    });
     return () => { active = false; };
   }, []);
-
-  const filtered = useMemo(() => artisans.filter(a =>
-    (trade === "All trades" || a.trade.toLowerCase() === trade.toLowerCase()) &&
-    (!available || a.available) &&
-    (a.name + " " + a.trade + " " + (a.location || "") + " " + (a.headline || "")).toLowerCase().includes(query.toLowerCase())
-  ), [artisans, trade, available, query]);
 
   return <main className="min-h-screen bg-[#f8f5ef] pb-24 text-[#1c2923] md:pb-0">
     <header className="sticky top-0 z-30 border-b border-[#1c2923]/10 bg-[#fffdf9]/95 backdrop-blur">
