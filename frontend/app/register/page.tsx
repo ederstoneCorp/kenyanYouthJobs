@@ -12,6 +12,9 @@ const trades = [
   "Carpenter",
   "Mechanic",
   "Tech Repair",
+  "Welder",
+  "Joiner",
+  "Tailor",
 ];
 
 export default function RegisterPage() {
