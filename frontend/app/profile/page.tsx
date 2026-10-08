@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowUpRight, BadgeCheck, MapPin, Pencil, UserRound, Eye, Lo
 import { supabase } from "../lib/supabase";
 
 type ProfileSummary = {
+  role: "customer" | "artisan";
   full_name: string;
   headline: string | null;
   location_label: string | null;
@@ -36,13 +37,14 @@ export default function MyProfilePage() {
       setEmail(authData.user.email || "");
       const { data, error: profileError } = await supabase
         .from("users")
-        .select("full_name, headline, location_label, avatar_url, bio")
+        .select("role, full_name, headline, location_label, avatar_url, bio")
         .eq("id", authData.user.id)
         .maybeSingle();
 
       if (!active) return;
       if (profileError) setError("We couldn't load your profile. Please try again.");
       else if (data) setProfile({
+        role: data.role === "artisan" ? "artisan" : "customer",
         full_name: data.full_name || "Your name",
         headline: data.headline || null,
         location_label: data.location_label || null,
@@ -86,7 +88,7 @@ export default function MyProfilePage() {
             </div>
           </div>
           <div className="grid gap-3 border-t border-[#1d3027]/10 bg-[#fffdf9] p-5 sm:grid-cols-2 sm:p-8">
-            <Link href={"/artisan?id=" + encodeURIComponent(userId)} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#244b3a]/20 bg-white px-4 py-3 text-sm font-extrabold text-[#244b3a] hover:bg-[#e6eee6]"><Eye size={17}/> View public profile <ArrowUpRight size={15}/></Link>
+            {profile.role === "artisan" && <Link href={"/artisan/?id=" + encodeURIComponent(userId)} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-[#244b3a]/20 bg-white px-4 py-3 text-sm font-extrabold text-[#244b3a] hover:bg-[#e6eee6]"><Eye size={17}/> View public profile <ArrowUpRight size={15}/></Link>}
             <Link href="/profile/edit" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#b9573d] px-4 py-3 text-sm font-extrabold text-white hover:bg-[#98442f]"><Pencil size={17}/> Edit profile</Link>
           </div>
         </> : <div className="p-5 sm:p-8"><Link href="/profile/edit" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#b9573d] px-4 py-3 text-sm font-extrabold text-white"><Pencil size={17}/> Complete profile</Link></div>}
