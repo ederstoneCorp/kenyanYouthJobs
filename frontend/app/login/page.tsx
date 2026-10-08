@@ -84,7 +84,7 @@ export default function LoginPage() {
           </form>
 
           <p className="mt-5 text-center text-sm text-black/60">
-            Need an account? <Link href="/register" className="font-bold text-forest underline">Register</Link>
+            Need an account? <Link href="/register/" className="font-bold text-forest underline">Register</Link>
           </p>
         </section>
       </div>
