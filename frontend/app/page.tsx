@@ -5,6 +5,14 @@ import { Search, MapPin, ShieldCheck, Star, SlidersHorizontal } from "lucide-rea
 import { supabase } from "./lib/supabase";
 
 type Artisan = { id: string; name: string; trade: string; rating: number; jobs: number; verified: boolean; available: boolean };
+const tradeLabels: Record<string, string> = {
+  ELECTRICAL: "Electrician",
+  PLUMBING: "Plumber",
+  CARPENTRY: "Carpenter",
+  MECHANIC: "Mechanic",
+  TECH_REPAIR: "Tech Repair",
+};
+const displayTrade = (value: string) => tradeLabels[value.toUpperCase()] ?? value;
 const trades = ["All trades", "Electrician", "Plumber", "Carpenter", "Mechanic", "Tech Repair"];
 
 export default function Home() {
@@ -27,7 +35,7 @@ export default function Home() {
         setErrorMessage("Unable to load artisan profiles. Check the Supabase connection and directory permissions.");
       } else {
         setArtisans((result.data ?? []).map((row: any) => ({
-          id: row.id, name: row.full_name || "Fundi profile", trade: row.trade_category || "General artisan",
+          id: row.id, name: row.full_name || "Fundi profile", trade: displayTrade(row.trade_category || "General artisan"),
           rating: Number(row.rating_avg ?? 0), jobs: Number(row.completed_jobs ?? 0),
           verified: Boolean(row.is_verified), available: Boolean(row.is_available)
         })));
