@@ -13,7 +13,7 @@ export default function Page() {
           <span><b className="block text-base tracking-tight sm:text-lg">FundiConnect</b><span className="block text-[9px] font-bold uppercase tracking-[.2em] text-[#a95338]">Skills that build Kenya</span></span>
         </Link>
         <Link href="/" className="ml-auto inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5"><ArrowLeft size={16}/> Home</Link>
-        <Link href="/profile/" className="ml-auto inline-flex min-h-10 items-center rounded-xl border border-[#244b3a]/15 px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">My Profile</Link>
+        <Link href="/profile/" className="inline-flex min-h-10 items-center rounded-xl border border-[#244b3a]/15 px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">My Profile</Link>
       </div>
     </header>
     <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
