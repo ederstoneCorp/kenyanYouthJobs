@@ -30,7 +30,7 @@ export default function Home() {
         </nav>
         <div className="ml-auto flex items-center gap-2 md:ml-5">
           <Link href={isSignedIn ? "/profile" : "/login"} className="rounded-xl px-3 py-2 text-sm font-bold text-[#244b3a] hover:bg-[#244b3a]/5">{isSignedIn ? "My Profile" : "Sign in"}</Link>
-          <Link href="/register" className="rounded-xl bg-[#b9573d] px-3.5 py-2.5 text-xs font-extrabold text-white shadow-sm transition hover:bg-[#98442f] sm:px-4 sm:text-sm">Join the network</Link>
+          {!isSignedIn && <Link href="/register" className="rounded-xl bg-[#b9573d] px-3.5 py-2.5 text-xs font-extrabold text-white shadow-sm transition hover:bg-[#98442f] sm:px-4 sm:text-sm">Join the network</Link>}
         </div>
       </div>
     </header>
@@ -45,7 +45,7 @@ export default function Home() {
           <p className="mt-5 max-w-xl text-sm leading-7 text-white/70 sm:text-base">A professional network for fundis, makers and skilled tradespeople. Show your work, build trust and connect with people who need your skills.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/discover" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#e5a34e] px-5 py-3 text-sm font-extrabold text-[#1d3027] shadow-lg shadow-black/10 transition hover:bg-[#f0b76d]">Find a fundi <ArrowUpRight size={17}/></Link>
-            <Link href="/register" className="inline-flex min-h-12 items-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10">Build your profile</Link>
+            <Link href={isSignedIn ? "/profile/edit/" : "/register"} className="inline-flex min-h-12 items-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10">{isSignedIn ? "Edit your profile" : "Build your profile"}</Link>
           </div>
           <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium text-white/65">
             <span className="inline-flex items-center gap-2"><ShieldCheck size={16} className="text-[#e5a34e]"/> Trust-first profiles</span>
