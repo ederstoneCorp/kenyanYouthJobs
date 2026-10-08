@@ -26,6 +26,9 @@ export default function Home() {
   useEffect(() => {
     let active = true;
     async function load() {
+      // Hide the current account from its own directory view, if it has an artisan profile.
+      const { data: authData } = await supabase.auth.getUser();
+      const currentUserId = authData.user?.id ?? null;
       const result = await supabase.from("public_artisan_directory")
         .select("id, full_name, trade_category, is_verified, is_available, rating_avg, completed_jobs, avatar_url, headline")
         .order("is_available", { ascending: false }).order("rating_avg", { ascending: false });
@@ -34,11 +37,13 @@ export default function Home() {
         console.error("Supabase artisan directory error:", result.error.message);
         setErrorMessage("Unable to load artisan profiles. Check the Supabase connection and directory permissions.");
       } else {
-        setArtisans((result.data ?? []).map((row: any) => ({
-          id: row.id, name: row.full_name || "Fundi profile", trade: displayTrade(row.trade_category || "General artisan"),
-          rating: Number(row.rating_avg ?? 0), jobs: Number(row.completed_jobs ?? 0),
-          verified: Boolean(row.is_verified), available: Boolean(row.is_available), avatarUrl: row.avatar_url ?? null, headline: row.headline ?? null
-        })));
+        setArtisans((result.data ?? [])
+          .filter((row: any) => !currentUserId || row.id !== currentUserId)
+          .map((row: any) => ({
+            id: row.id, name: row.full_name || "Fundi profile", trade: displayTrade(row.trade_category || "General artisan"),
+            rating: Number(row.rating_avg ?? 0), jobs: Number(row.completed_jobs ?? 0),
+            verified: Boolean(row.is_verified), available: Boolean(row.is_available), avatarUrl: row.avatar_url ?? null, headline: row.headline ?? null
+          })));
       }
       setLoading(false);
     }
